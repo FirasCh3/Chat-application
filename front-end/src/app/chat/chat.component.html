@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="card chat-app">
+        <div id="plist" class="people-list">
+          <div class="input-group">
+            <input  type="text" class="form-control" placeholder="start a conversation" #input>
+            <button class="btn btn-success" (click)="AddConversation(input.value)"><svg class="m-auto" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg></button>
+          </div>
+          <ul class="list-unstyled chat-list mt-2 mb-0">
+            <li class="clearfix" id="chat" *ngFor="let friend of friends" >
+
+                <div class="about" *ngIf="user.UserId==friend.Sender.UserId" (click)="getMessages(friend.Recipient)">
+                  <div class="name">{{friend.Recipient.UserName}}</div>
+              </div>
+              <div class="about" *ngIf="user.UserId!=friend.Sender.UserId" (click)="getMessages(friend.Sender)">
+
+                <div class="name">{{friend.Sender.UserName}}</div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+        <div class="chat">
+          <div class="chat-header clearfix">
+            <div class="row">
+              <div class="col-lg-6">
+
+                <div class="chat-about">
+                  <h6 class="m-b-0">{{user.UserName}}</h6>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="chat-history">
+            <ul class="m-b-0">
+              <li class="clearfix" *ngFor="let message of Messages">
+                <div class="message other-message float-right" *ngIf="message.Sender.UserId==user.UserId else NotUser">{{message.Content}}</div>
+                <ng-template #NotUser>
+                <div class="message other-message float-start">{{message.Content}}</div>
+                </ng-template>
+              </li>
+              <li class="clearfix" *ngFor="let newMsg of newMessages">
+                  <div class="message other-message float-right" *ngIf="newMsg?.Sender==user.UserId  else NotSender">{{newMsg.Content}}</div>
+                  <ng-template #NotSender>
+                    <div class="message other-message float-left">{{newMsg?.Content}}</div>
+                  </ng-template>
+              </li>
+            </ul>
+          </div>
+          <div class="chat-message clearfix">
+            <div class="input-group mb-0">
+              <div class="input-group-prepend">
+                <button class="input-group-text btn btn-success" (click)="sendMessage(message.value)">send</button>
+              </div>
+              <input type="text" class="form-control" #message placeholder="Enter text here...">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
